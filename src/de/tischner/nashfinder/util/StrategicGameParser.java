@@ -1,4 +1,4 @@
-package de.zabuza.nashfinder.util;
+package de.tischner.nashfinder.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import de.zabuza.nashfinder.game.StrategicGame;
-import de.zabuza.nashfinder.game.util.ActionProfile;
+import de.tischner.nashfinder.game.StrategicGame;
+import de.tischner.nashfinder.game.util.ActionProfile;
 import jdk.nashorn.internal.runtime.JSONListAdapter;
 
 /**

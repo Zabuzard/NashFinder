@@ -1,4 +1,4 @@
-package de.zabuza.nashfinder.util;
+package de.tischner.nashfinder.util;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.zabuza.nashfinder.game.util.SupportSet;
+import de.tischner.nashfinder.game.util.SupportSet;
 
 /**
  * 

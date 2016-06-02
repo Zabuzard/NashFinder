@@ -1,4 +1,4 @@
-package de.zabuza.nashfinder.game;
+package de.tischner.nashfinder.game;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.zabuza.nashfinder.game.util.ActionProfile;
+import de.tischner.nashfinder.game.util.ActionProfile;
 
 /**
  * 

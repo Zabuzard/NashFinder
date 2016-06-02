@@ -1,4 +1,4 @@
-package de.zabuza.nashfinder.game.util;
+package de.tischner.nashfinder.game.util;
 
 import java.util.Iterator;
 import java.util.LinkedList;

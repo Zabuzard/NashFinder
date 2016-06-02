@@ -1,27 +1,12 @@
 package de.tischner.nashfinder;
 
-import net.sf.javailp.Linear;
-import net.sf.javailp.OptType;
-import net.sf.javailp.Problem;
-import net.sf.javailp.Result;
-import net.sf.javailp.Solver;
-import net.sf.javailp.SolverFactory;
-import net.sf.javailp.SolverFactoryLpSolve;
-
 /**
  * 
  * @author Daniel Tischner
  *
  */
 public final class Program {
-	
-	/**
-	 * Utility class. No implementation.
-	*/
-	private Program() {
 
-	}
-	
 	/**
 	 * 
 	 * 
@@ -51,51 +36,13 @@ public final class Program {
 		}
 
 		nashFinder.computeNashEquilibria();
-		
-		// Testing Java ILP
-		SolverFactory factory = new SolverFactoryLpSolve();
-		factory.setParameter(Solver.VERBOSE, 0);
-		factory.setParameter(Solver.TIMEOUT, 100);
-		
-		Problem problem = new Problem();
-		
-		Linear linear = new Linear();
-		linear.add(143, "x");
-		linear.add(60, "y");
-		
-		problem.setObjective(linear, OptType.MAX);
-		
-		linear = new Linear();
-		linear.add(120, "x");
-		linear.add(210, "y");
-		
-		problem.add(linear, "<=", 15000);
-		
-		linear = new Linear();
-		linear.add(110, "x");
-		linear.add(30, "y");
-		
-		problem.add(linear, "<=", 4000);
-		
-		linear = new Linear();
-		linear.add(1, "x");
-		linear.add(1, "y");
-		
-		problem.add(linear, "<=", 75);
-		
-		problem.setVarType("x", Integer.class);
-		problem.setVarType("y", Integer.class);
-		
-		Solver solver = factory.get();
-		Result result = solver.solve(problem);
-		
-		System.out.println(result);
-		
-		problem.setVarUpperBound("x", 16);
-		
-		solver = factory.get();
-		result = solver.solve(problem);
-		
-		System.out.println(result);
+		nashFinder.printResults();
+	}
+
+	/**
+	 * Utility class. No implementation.
+	 */
+	private Program() {
+
 	}
 }

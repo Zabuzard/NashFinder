@@ -72,8 +72,21 @@ public final class StrategicGame<PLAYER, ACTION> {
 				"Could not find the payoff for the given player. The internal structures may be corrupt.");
 	}
 
+	public Set<ACTION> getPlayerActions(final PLAYER player) {
+		return mPlayerToActions.get(player);
+	}
+
 	public Iterator<PLAYER> getPlayers() {
 		return mPlayers.iterator();
+	}
+
+	public boolean hasPlayer(final PLAYER player) {
+		return mPlayers.contains(player);
+	}
+
+	public boolean hasPlayerAction(final PLAYER player, final ACTION action) {
+		Set<ACTION> playerActions = mPlayerToActions.get(player);
+		return playerActions != null && playerActions.contains(action);
 	}
 
 	/*

@@ -5,22 +5,44 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
+ * Specifies a set of actions a given player has access to.
  * 
  * @author Daniel Tischner
  *
  * @param <PLAYER>
+ *            Class of players
  * @param <ACTION>
+ *            Class of actions
  */
 public final class SupportSet<PLAYER, ACTION> {
 
+	/**
+	 * The set of actions the given player has access to.
+	 */
 	private final Set<ACTION> mActions;
-
+	/**
+	 * The player that has access to this support set.
+	 */
 	private final PLAYER mPlayer;
 
+	/**
+	 * Creates a new empty support set for a given player.
+	 * 
+	 * @param player
+	 *            Player to create the support set for
+	 */
 	public SupportSet(final PLAYER player) {
 		this(player, null);
 	}
 
+	/**
+	 * Creates a new support set for a given player with a given set of actions.
+	 * 
+	 * @param player
+	 *            Player to create the support set for
+	 * @param actions
+	 *            Set of actions the player has access to
+	 */
 	public SupportSet(final PLAYER player, final Set<ACTION> actions) {
 		mPlayer = player;
 		mActions = new LinkedHashSet<ACTION>();
@@ -31,6 +53,14 @@ public final class SupportSet<PLAYER, ACTION> {
 		}
 	}
 
+	/**
+	 * Adds a given action to the set of actions, the player has access to.
+	 * 
+	 * @param action
+	 *            Action to add
+	 * @return <tt>True</tt> if this support set did not already contain the
+	 *         specified action
+	 */
 	public boolean addAction(final ACTION action) {
 		return mActions.add(action);
 	}
@@ -69,14 +99,32 @@ public final class SupportSet<PLAYER, ACTION> {
 		return true;
 	}
 
+	/**
+	 * Gets all actions the player of this support set has access to.
+	 * 
+	 * @return All actions the player of this support set has access to
+	 */
 	public Iterator<ACTION> getActions() {
 		return mActions.iterator();
 	}
 
+	/**
+	 * Gets the player of this support set.
+	 * 
+	 * @return The player of this support set
+	 */
 	public PLAYER getPlayer() {
 		return mPlayer;
 	}
 
+	/**
+	 * Returns whether the support set contains the given action.
+	 * 
+	 * @param action
+	 *            Action in question
+	 * @return <tt>True</tt> if the support set contains the given action,
+	 *         <tt>false</tt> otherwise.
+	 */
 	public boolean hasAction(final ACTION action) {
 		return mActions.contains(action);
 	}

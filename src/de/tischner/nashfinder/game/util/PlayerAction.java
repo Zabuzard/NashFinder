@@ -1,17 +1,34 @@
 package de.tischner.nashfinder.game.util;
 
 /**
+ * Associates a given action to a given player.
  * 
  * @author Daniel Tischner
  *
  * @param <PLAYER>
+ *            The class of players
  * @param <ACTION>
+ *            The class of actions
  */
 public final class PlayerAction<PLAYER, ACTION> {
 
+	/**
+	 * Action to associate.
+	 */
 	private final ACTION mAction;
+	/**
+	 * Player to associate.
+	 */
 	private final PLAYER mPlayer;
 
+	/**
+	 * Associates a given player to a given action.
+	 * 
+	 * @param player
+	 *            Player to associate
+	 * @param action
+	 *            Action to associate
+	 */
 	public PlayerAction(final PLAYER player, final ACTION action) {
 		mPlayer = player;
 		mAction = action;
@@ -51,10 +68,20 @@ public final class PlayerAction<PLAYER, ACTION> {
 		return true;
 	}
 
+	/**
+	 * Gets the associated action.
+	 * 
+	 * @return The associated action
+	 */
 	public ACTION getAction() {
 		return mAction;
 	}
 
+	/**
+	 * Gets the associated player.
+	 * 
+	 * @return The associated player
+	 */
 	public PLAYER getPlayer() {
 		return mPlayer;
 	}

@@ -13,24 +13,57 @@ import javax.script.ScriptException;
 
 import de.tischner.nashfinder.game.StrategicGame;
 import de.tischner.nashfinder.game.util.ActionProfile;
+import de.tischner.nashfinder.locale.ErrorMessages;
 import jdk.nashorn.internal.runtime.JSONListAdapter;
 
 /**
+ * Utility class that provides methods for parsing
+ * {@link de.tischner.nashfinder.game.StrategicGame StrategicGames} out of
+ * various sources.
  * 
  * @author Daniel Tischner
  *
  */
 public final class StrategicGameParser {
 
+	/**
+	 * Key in the json format for the actions.
+	 */
+	private static final String JSON_KEY_ACTIONS = "Actions";
+	/**
+	 * Key in the json format for the payoffs.
+	 */
+	private static final String JSON_KEY_PAYOFFS = "Values";
+	/**
+	 * Key in the json format for the players.
+	 */
+	private static final String JSON_KEY_PLAYERS = "Agents";
+	/**
+	 * Scripting engine command to convert the given object to a java usable
+	 * json object.
+	 */
+	private static final String SCRIPT_CMD_TO_JAVA_JSON = "Java.asJSONCompatible";
+	/**
+	 * Script engine to use for parsing json objects.
+	 */
+	private static final String SCRIPT_ENGINE = "javascript";
+
+	/**
+	 * Parses a strategic game out of a json file.
+	 * 
+	 * @param file
+	 *            File in the json format that contains the game to parse
+	 * @return The parsed game
+	 */
 	@SuppressWarnings("unchecked")
 	public static StrategicGame<String, String> parseStrategicGameJson(final File file) {
 		ScriptEngineManager sem = new ScriptEngineManager();
-		ScriptEngine engine = sem.getEngineByName("javascript");
+		ScriptEngine engine = sem.getEngineByName(SCRIPT_ENGINE);
 
 		Map<String, Object> contents = null;
 		try {
 			String json = new String(Files.readAllBytes(file.toPath()));
-			String script = "Java.asJSONCompatible(" + json + ")";
+			String script = SCRIPT_CMD_TO_JAVA_JSON + "(" + json + ")";
 			Object result = engine.eval(script);
 			if (result instanceof Map<?, ?>) {
 				contents = (Map<String, Object>) result;
@@ -45,18 +78,27 @@ public final class StrategicGameParser {
 		return parseStrategicGameJson(contents);
 	}
 
+	/**
+	 * Parses a strategic game out of a json object, created by the javascript
+	 * engine nashorn.
+	 * 
+	 * @param json
+	 *            Json object, created by the javascript engine nashorn, that
+	 *            contains the game to parse
+	 * @return The parsed game
+	 */
 	public static StrategicGame<String, String> parseStrategicGameJson(final Map<String, Object> json) {
-		if (json == null || json.isEmpty() || !json.containsKey("Agents") || !json.containsKey("Actions")
-				|| !json.containsKey("Values") || !(json.get("Agents") instanceof JSONListAdapter)
-				|| !(json.get("Actions") instanceof JSONListAdapter)
-				|| !(json.get("Values") instanceof JSONListAdapter)) {
+		if (json == null || json.isEmpty() || !json.containsKey(JSON_KEY_PLAYERS) || !json.containsKey(JSON_KEY_ACTIONS)
+				|| !json.containsKey(JSON_KEY_PAYOFFS) || !(json.get(JSON_KEY_PLAYERS) instanceof JSONListAdapter)
+				|| !(json.get(JSON_KEY_ACTIONS) instanceof JSONListAdapter)
+				|| !(json.get(JSON_KEY_PAYOFFS) instanceof JSONListAdapter)) {
 			exitJsonParseError();
 		}
 
 		StrategicGame<String, String> game = new StrategicGame<>();
 
 		// Add players
-		JSONListAdapter players = (JSONListAdapter) json.get("Agents");
+		JSONListAdapter players = (JSONListAdapter) json.get(JSON_KEY_PLAYERS);
 		for (Object player : players) {
 			if (!(player instanceof String)) {
 				exitJsonParseError();
@@ -66,7 +108,7 @@ public final class StrategicGameParser {
 		}
 
 		// Add actions
-		JSONListAdapter actions = (JSONListAdapter) json.get("Actions");
+		JSONListAdapter actions = (JSONListAdapter) json.get(JSON_KEY_ACTIONS);
 		if (actions.size() != players.size()) {
 			exitJsonParseError();
 		}
@@ -89,11 +131,13 @@ public final class StrategicGameParser {
 		}
 
 		// Add payoffs
-		// TODO Extend this operation to support arbitrary amount of players
 		if (actions.size() != 2) {
+			// At this point, we only allow a player size of two.
+			// This is because the payoff matrix for greater values would not be
+			// representable by the given format (2x2).
 			exitJsonParseError();
 		}
-		JSONListAdapter values = (JSONListAdapter) json.get("Values");
+		JSONListAdapter values = (JSONListAdapter) json.get(JSON_KEY_PAYOFFS);
 		JSONListAdapter actionsOfFirstPlayer = (JSONListAdapter) actions.get(0);
 		JSONListAdapter actionsOfSecondPlayer = (JSONListAdapter) actions.get(1);
 		for (int i = 0; i < actionsOfFirstPlayer.size(); i++) {
@@ -128,12 +172,27 @@ public final class StrategicGameParser {
 		return game;
 	}
 
-	public static StrategicGame<String, String> parseStrategicGameJson(final String fileName) {
-		return parseStrategicGameJson(new File(fileName));
+	/**
+	 * Parses a strategic game out of a json file.
+	 * 
+	 * @param filePath
+	 *            Path to the file in the json format that contains the game to
+	 *            parse
+	 * @return The parsed game
+	 */
+	public static StrategicGame<String, String> parseStrategicGameJson(final String filePath) {
+		return parseStrategicGameJson(new File(filePath));
 	}
 
+	/**
+	 * Exits the method by throwing an {@link IllegalArgumentException} because
+	 * there occurred a parse error.
+	 * 
+	 * @throws IllegalArgumentException
+	 *             This method always throws this exception
+	 */
 	private static void exitJsonParseError() {
-		throw new IllegalArgumentException("Could not parse the json object. The format may be corrupt.");
+		throw new IllegalArgumentException(ErrorMessages.JSON_PARSE_ERROR);
 	}
 
 	/**

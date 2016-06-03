@@ -1,17 +1,41 @@
 package de.tischner.nashfinder.game.util;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * An action profile specifies an ordered list of actions. This may be used to
+ * represent the actions of a list of players, for assigning it to a specific
+ * payoff.
+ * 
+ * @author Daniel Tischner
+ *
+ * @param <ACTION>
+ *            Class for actions
+ */
 public final class ActionProfile<ACTION> {
 
+	/**
+	 * The action profile as list of actions.
+	 */
 	private final List<ACTION> mProfile;
 
+	/**
+	 * Creates a new empty action profile.
+	 */
 	public ActionProfile() {
 		mProfile = new LinkedList<>();
 	}
 
+	/**
+	 * Adds a given action to the profile.
+	 * 
+	 * @param action
+	 *            Action to add.
+	 * @return <tt>True</tt> (as specified by {@link Collection#add(E)}).
+	 */
 	public boolean addAction(final ACTION action) {
 		return mProfile.add(action);
 	}
@@ -43,6 +67,11 @@ public final class ActionProfile<ACTION> {
 		return true;
 	}
 
+	/**
+	 * Gets all actions of this profile in the order they where added.
+	 * 
+	 * @return All actions of this profile in the order they where added
+	 */
 	public Iterator<ACTION> getActions() {
 		return mProfile.iterator();
 	}
@@ -60,6 +89,11 @@ public final class ActionProfile<ACTION> {
 		return result;
 	}
 
+	/**
+	 * Gets the size of this profile, which is the amount of actions.
+	 * 
+	 * @return The size of this profile, which is the amount of actions
+	 */
 	public int size() {
 		return mProfile.size();
 	}
@@ -77,5 +111,4 @@ public final class ActionProfile<ACTION> {
 
 		return result.toString();
 	}
-
 }

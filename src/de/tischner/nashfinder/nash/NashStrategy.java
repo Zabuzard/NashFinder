@@ -3,24 +3,57 @@ package de.tischner.nashfinder.nash;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import de.tischner.nashfinder.locale.ErrorMessages;
+
 /**
+ * A nash strategy specifies, for a player, which actions he should play with
+ * what probability, so that it results in a nash equilibrium.
  * 
  * @author Daniel Tischner
  *
  * @param <ACTION>
+ *            Class of the actions
  */
 public final class NashStrategy<ACTION> {
 
+	/**
+	 * Inclusive lower bound for probabilities.
+	 */
+	private static final int PROBABILITY_LOWER_BOUND = 0;
+	/**
+	 * Inclusive upper bound for probabilities.
+	 */
+	private static final int PROBABILITY_UPPER_BOUND = 1;
+
+	/**
+	 * Data structure that allows a fast access to the probability for a given
+	 * action.
+	 */
 	private final Map<ACTION, Number> mActionToProbability;
 
+	/**
+	 * Creates a new empty nash strategy.
+	 */
 	public NashStrategy() {
 		mActionToProbability = new LinkedHashMap<>();
 	}
 
+	/**
+	 * Adds an action with a given probability to the strategy.
+	 * 
+	 * @param action
+	 *            Action to add
+	 * @param probability
+	 *            The probability of the given action between <tt>0</tt> and
+	 *            <tt>1</tt> (both inclusive)
+	 * @throws IllegalArgumentException
+	 *             If the given probability is not between <tt>0</tt> and
+	 *             <tt>1</tt> (both inclusive)
+	 */
 	public void addAction(final ACTION action, final Number probability) {
-		if (probability.doubleValue() < 0 || probability.doubleValue() > 1) {
-			throw new IllegalArgumentException(
-					"The given probability must be between zero and one (both inclusive): " + probability);
+		if (probability.doubleValue() < PROBABILITY_LOWER_BOUND
+				|| probability.doubleValue() > PROBABILITY_UPPER_BOUND) {
+			throw new IllegalArgumentException(ErrorMessages.PROBABILITY_EXCEEDS_LIMITS + " Got: " + probability);
 		}
 		mActionToProbability.put(action, probability);
 	}
@@ -52,6 +85,14 @@ public final class NashStrategy<ACTION> {
 		return true;
 	}
 
+	/**
+	 * Gets the probability of the given action.
+	 * 
+	 * @param action
+	 *            Action to get the probability for
+	 * @return The probability of the given action between <tt>0</tt> and
+	 *         <tt>1</tt> (both inclusive)
+	 */
 	public Number getActionProbability(final ACTION action) {
 		return mActionToProbability.get(action);
 	}

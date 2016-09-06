@@ -78,7 +78,7 @@ public final class NashFinder {
 	 * then get the results, for example by {@link #printResults()}.
 	 * 
 	 * @param gameFileName
-	 *            Path to the game file in the json-format
+	 *            Path to the game file in the json-format.
 	 * @param specificSupportSets
 	 *            Specific support sets to solve the game for. The format is
 	 *            <tt>[H,T][T]</tt>, where every player has the given actions.

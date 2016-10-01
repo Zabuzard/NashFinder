@@ -29,7 +29,7 @@ import net.sf.javailp.SolverFactoryLpSolve;
 /**
  * Class that finds nash equilibria in games.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class NashFinder {

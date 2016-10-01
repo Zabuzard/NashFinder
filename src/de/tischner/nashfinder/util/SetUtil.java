@@ -10,7 +10,7 @@ import de.tischner.nashfinder.locale.ErrorMessages;
 /**
  * Class that provides utility methods for {@link Set Sets}.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class SetUtil {

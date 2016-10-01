@@ -21,7 +21,7 @@ import jdk.nashorn.internal.runtime.JSONListAdapter;
  * {@link de.tischner.nashfinder.game.StrategicGame StrategicGames} out of
  * various sources.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class StrategicGameParser {

@@ -10,7 +10,7 @@ import java.util.List;
  * represent the actions of a list of players, for assigning it to a specific
  * payoff.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  * @param <ACTION>
  *            Class for actions

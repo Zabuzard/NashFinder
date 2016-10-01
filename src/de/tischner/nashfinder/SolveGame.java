@@ -6,7 +6,7 @@ import de.tischner.nashfinder.locale.ErrorMessages;
  * Command line program that solves strategic games by solving <i>linear
  * complementary problems</i> (LCP).
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class SolveGame {

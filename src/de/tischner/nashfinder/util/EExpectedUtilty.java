@@ -3,7 +3,7 @@ package de.tischner.nashfinder.util;
 /**
  * Specifies keys for expected utilities that can be assigned to players.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  */
 public enum EExpectedUtilty {

@@ -9,7 +9,7 @@ import de.tischner.nashfinder.locale.ErrorMessages;
  * A nash strategy specifies, for a player, which actions he should play with
  * what probability, so that it results in a nash equilibrium.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  * @param <ACTION>
  *            Class of the actions

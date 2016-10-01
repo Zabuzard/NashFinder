@@ -14,7 +14,7 @@ import de.tischner.nashfinder.locale.ErrorMessages;
  * {@link de.tischner.nashfinder.game.util.SupportSet SupportSets} from various
  * sources.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class SupportSetParser {

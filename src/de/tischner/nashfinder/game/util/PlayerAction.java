@@ -3,7 +3,7 @@ package de.tischner.nashfinder.game.util;
 /**
  * Associates a given action to a given player.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  * @param <PLAYER>
  *            The class of players

@@ -3,7 +3,7 @@ package de.tischner.nashfinder.locale;
 /**
  * Utility class that provides error messages for the nash finder.
  * 
- * @author Zabuza
+ * @author Zabuza {@literal <zabuza.dev@gmail.com>}
  * 
  */
 public final class ErrorMessages {

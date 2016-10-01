@@ -14,7 +14,7 @@ import de.tischner.nashfinder.locale.ErrorMessages;
  * Object that represents a strategic game where players have several actions
  * and get a payoff based on all players actions.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  * @param <PLAYER>
  *            Class of the players

@@ -18,7 +18,7 @@ import net.sf.javailp.Result;
  * specify a {@link de.tischner.nashfinder.nash.NashStrategy NashStrategy} and
  * an expected utility for every player.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  * @param <PLAYER>
  *            Class of players

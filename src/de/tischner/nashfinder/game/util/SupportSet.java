@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Specifies a set of actions a given player has access to.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  * @param <PLAYER>
  *            Class of players

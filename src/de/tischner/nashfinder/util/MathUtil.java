@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Class that provides utility methods for math.
  * 
- * @author Daniel Tischner
+ * @author Daniel Tischner {@literal <zabuza.dev@gmail.com>}
  *
  */
 public final class MathUtil {

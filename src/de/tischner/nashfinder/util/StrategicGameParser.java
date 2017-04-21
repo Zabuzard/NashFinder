@@ -57,14 +57,14 @@ public final class StrategicGameParser {
 	 */
 	@SuppressWarnings("unchecked")
 	public static StrategicGame<String, String> parseStrategicGameJson(final File file) {
-		ScriptEngineManager sem = new ScriptEngineManager();
-		ScriptEngine engine = sem.getEngineByName(SCRIPT_ENGINE);
+		final ScriptEngineManager sem = new ScriptEngineManager();
+		final ScriptEngine engine = sem.getEngineByName(SCRIPT_ENGINE);
 
 		Map<String, Object> contents = null;
 		try {
-			String json = new String(Files.readAllBytes(file.toPath()));
-			String script = SCRIPT_CMD_TO_JAVA_JSON + "(" + json + ")";
-			Object result = engine.eval(script);
+			final String json = new String(Files.readAllBytes(file.toPath()));
+			final String script = SCRIPT_CMD_TO_JAVA_JSON + "(" + json + ")";
+			final Object result = engine.eval(script);
 			if (result instanceof Map<?, ?>) {
 				contents = (Map<String, Object>) result;
 			}
@@ -96,36 +96,36 @@ public final class StrategicGameParser {
 			return null;
 		}
 
-		StrategicGame<String, String> game = new StrategicGame<>();
+		final StrategicGame<String, String> game = new StrategicGame<>();
 
 		// Add players
-		JSONListAdapter players = (JSONListAdapter) json.get(JSON_KEY_PLAYERS);
-		for (Object player : players) {
+		final JSONListAdapter players = (JSONListAdapter) json.get(JSON_KEY_PLAYERS);
+		for (final Object player : players) {
 			if (!(player instanceof String)) {
 				exitJsonParseError();
 			}
-			String playerAsString = (String) player;
+			final String playerAsString = (String) player;
 			game.addPlayer(playerAsString);
 		}
 
 		// Add actions
-		JSONListAdapter actions = (JSONListAdapter) json.get(JSON_KEY_ACTIONS);
+		final JSONListAdapter actions = (JSONListAdapter) json.get(JSON_KEY_ACTIONS);
 		if (actions.size() != players.size()) {
 			exitJsonParseError();
 		}
 		for (int i = 0; i < actions.size(); i++) {
-			Object actionsForPlayer = actions.get(i);
+			final Object actionsForPlayer = actions.get(i);
 			if (!(actionsForPlayer instanceof JSONListAdapter)) {
 				exitJsonParseError();
 			}
-			JSONListAdapter actionsForPlayerAsList = (JSONListAdapter) actionsForPlayer;
+			final JSONListAdapter actionsForPlayerAsList = (JSONListAdapter) actionsForPlayer;
 
-			String currentPlayer = (String) players.get(i);
-			for (Object actionForPlayer : actionsForPlayerAsList) {
+			final String currentPlayer = (String) players.get(i);
+			for (final Object actionForPlayer : actionsForPlayerAsList) {
 				if (!(actionForPlayer instanceof String)) {
 					exitJsonParseError();
 				}
-				String actionForPlayerAsString = (String) actionForPlayer;
+				final String actionForPlayerAsString = (String) actionForPlayer;
 
 				game.addAction(actionForPlayerAsString, currentPlayer);
 			}
@@ -138,31 +138,31 @@ public final class StrategicGameParser {
 			// representable by the given format (2x2).
 			exitJsonParseError();
 		}
-		JSONListAdapter values = (JSONListAdapter) json.get(JSON_KEY_PAYOFFS);
-		JSONListAdapter actionsOfFirstPlayer = (JSONListAdapter) actions.get(0);
-		JSONListAdapter actionsOfSecondPlayer = (JSONListAdapter) actions.get(1);
+		final JSONListAdapter values = (JSONListAdapter) json.get(JSON_KEY_PAYOFFS);
+		final JSONListAdapter actionsOfFirstPlayer = (JSONListAdapter) actions.get(0);
+		final JSONListAdapter actionsOfSecondPlayer = (JSONListAdapter) actions.get(1);
 		for (int i = 0; i < actionsOfFirstPlayer.size(); i++) {
 			for (int j = 0; j < actionsOfSecondPlayer.size(); j++) {
-				Object matrixRow = values.get(i);
+				final Object matrixRow = values.get(i);
 				if (!(matrixRow instanceof JSONListAdapter)) {
 					exitJsonParseError();
 				}
-				JSONListAdapter matrixRowAsList = (JSONListAdapter) matrixRow;
-				Object matrixEntry = matrixRowAsList.get(j);
+				final JSONListAdapter matrixRowAsList = (JSONListAdapter) matrixRow;
+				final Object matrixEntry = matrixRowAsList.get(j);
 				if (!(matrixEntry instanceof JSONListAdapter)) {
 					exitJsonParseError();
 				}
-				JSONListAdapter matrixEntryAsList = (JSONListAdapter) matrixEntry;
+				final JSONListAdapter matrixEntryAsList = (JSONListAdapter) matrixEntry;
 
-				List<Integer> payoffAsList = new LinkedList<>();
-				for (Object singlePayoff : matrixEntryAsList) {
+				final List<Integer> payoffAsList = new LinkedList<>();
+				for (final Object singlePayoff : matrixEntryAsList) {
 					if (!(singlePayoff instanceof Integer)) {
 						exitJsonParseError();
 					}
 					payoffAsList.add((Integer) singlePayoff);
 				}
 
-				ActionProfile<String> actionProfile = new ActionProfile<>();
+				final ActionProfile<String> actionProfile = new ActionProfile<>();
 				actionProfile.addAction((String) actionsOfFirstPlayer.get(i));
 				actionProfile.addAction((String) actionsOfSecondPlayer.get(j));
 

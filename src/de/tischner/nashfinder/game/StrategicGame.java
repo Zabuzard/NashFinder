@@ -62,7 +62,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 		if (actions == null) {
 			actions = new LinkedHashSet<>();
 		}
-		boolean wasAdded = actions.add(action);
+		final boolean wasAdded = actions.add(action);
 		this.mPlayerToActions.put(player, actions);
 
 		return wasAdded;
@@ -117,13 +117,13 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 *            Player to get payoff for
 	 * @return The payoff for the given player in the given action profile
 	 */
-	public int getPayoffForPlayer(final ActionProfile<ACTION> actionProfile, PLAYER player) {
-		List<Integer> payoff = getPayoff(actionProfile);
+	public int getPayoffForPlayer(final ActionProfile<ACTION> actionProfile, final PLAYER player) {
+		final List<Integer> payoff = getPayoff(actionProfile);
 
-		Iterator<PLAYER> playerIter = this.mPlayers.iterator();
-		for (int singlePayoff : payoff) {
+		final Iterator<PLAYER> playerIter = this.mPlayers.iterator();
+		for (final int singlePayoff : payoff) {
 			if (playerIter.hasNext()) {
-				PLAYER currentPlayer = playerIter.next();
+				final PLAYER currentPlayer = playerIter.next();
 				if (currentPlayer.equals(player)) {
 					return singlePayoff;
 				}
@@ -175,7 +175,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 *         otherwise
 	 */
 	public boolean hasPlayerAction(final PLAYER player, final ACTION action) {
-		Set<ACTION> playerActions = this.mPlayerToActions.get(player);
+		final Set<ACTION> playerActions = this.mPlayerToActions.get(player);
 		return playerActions != null && playerActions.contains(action);
 	}
 
@@ -186,8 +186,8 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 */
 	@Override
 	public String toString() {
-		String separator = System.lineSeparator();
-		StringBuilder result = new StringBuilder();
+		final String separator = System.lineSeparator();
+		final StringBuilder result = new StringBuilder();
 
 		result.append("Players: " + this.mPlayers + separator);
 		result.append("PlayerToActions:" + this.mPlayerToActions + separator);

@@ -46,7 +46,7 @@ public final class ActionProfile<ACTION> {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -56,7 +56,7 @@ public final class ActionProfile<ACTION> {
 		if (!(obj instanceof ActionProfile)) {
 			return false;
 		}
-		ActionProfile<?> other = (ActionProfile<?>) obj;
+		final ActionProfile<?> other = (ActionProfile<?>) obj;
 		if (this.mProfile == null) {
 			if (other.mProfile != null) {
 				return false;
@@ -105,7 +105,7 @@ public final class ActionProfile<ACTION> {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		result.append(this.mProfile);
 

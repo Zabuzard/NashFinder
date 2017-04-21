@@ -49,12 +49,12 @@ public final class SolveGame {
 		}
 		// The second argument is optional and may specify a specific support
 		// sets to use for computation
-		boolean useSpecificSupportSets = args.length >= MAX_ARG_LENGTH;
+		final boolean useSpecificSupportSets = args.length >= MAX_ARG_LENGTH;
 		String specificSupportSets = null;
 		if (useSpecificSupportSets) {
 			specificSupportSets = args[SUPPORT_SETS_ARG_INDEX];
 		}
-		String gameFileName = args[GAME_FILE_ARG_INDEX];
+		final String gameFileName = args[GAME_FILE_ARG_INDEX];
 
 		NashFinder nashFinder = null;
 		if (useSpecificSupportSets) {

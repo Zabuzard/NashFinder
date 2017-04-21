@@ -47,7 +47,7 @@ public final class SupportSet<PLAYER, ACTION> {
 		this.mPlayer = player;
 		this.mActions = new LinkedHashSet<>();
 		if (actions != null) {
-			for (ACTION action : actions) {
+			for (final ACTION action : actions) {
 				addAction(action);
 			}
 		}
@@ -71,7 +71,7 @@ public final class SupportSet<PLAYER, ACTION> {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -81,7 +81,7 @@ public final class SupportSet<PLAYER, ACTION> {
 		if (!(obj instanceof SupportSet)) {
 			return false;
 		}
-		SupportSet<?, ?> other = (SupportSet<?, ?>) obj;
+		final SupportSet<?, ?> other = (SupportSet<?, ?>) obj;
 		if (this.mActions == null) {
 			if (other.mActions != null) {
 				return false;

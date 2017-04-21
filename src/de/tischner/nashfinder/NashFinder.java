@@ -103,17 +103,17 @@ public final class NashFinder {
 	 * example, with {@link #printResults()}.
 	 */
 	public void computeNashEquilibria() {
-		List<List<SupportSet<String, String>>> supportSetsToProcess = buildSupportSets();
-		for (List<SupportSet<String, String>> supportSets : supportSetsToProcess) {
+		final List<List<SupportSet<String, String>>> supportSetsToProcess = buildSupportSets();
+		for (final List<SupportSet<String, String>> supportSets : supportSetsToProcess) {
 			// Solve the LCP for the given support sets
-			SupportSet<String, String> firstPlayerSet = supportSets.get(0);
-			SupportSet<String, String> secondPlayerSet = supportSets.get(1);
+			final SupportSet<String, String> firstPlayerSet = supportSets.get(0);
+			final SupportSet<String, String> secondPlayerSet = supportSets.get(1);
 
-			SolverFactory factory = new SolverFactoryLpSolve();
+			final SolverFactory factory = new SolverFactoryLpSolve();
 			factory.setParameter(Integer.valueOf(Solver.VERBOSE), Integer.valueOf(VERBOSE_VALUE));
 			factory.setParameter(Integer.valueOf(Solver.TIMEOUT), Integer.valueOf(TIMEOUT_MILLIS));
-			Problem problem = new Problem();
-			Linear linear = new Linear();
+			final Problem problem = new Problem();
+			final Linear linear = new Linear();
 			linear.add(Integer.valueOf(1), EExpectedUtilty.FIRST_PLAYER);
 			linear.add(Integer.valueOf(1), EExpectedUtilty.SECOND_PLAYER);
 			problem.setObjective(linear, OptType.MAX);
@@ -125,8 +125,8 @@ public final class NashFinder {
 			// Player 2 against Player 1
 			addConstraintsForConstellation(problem, secondPlayerSet, firstPlayerSet, EExpectedUtilty.SECOND_PLAYER);
 
-			Solver solver = factory.get();
-			Result result = solver.solve(problem);
+			final Solver solver = factory.get();
+			final Result result = solver.solve(problem);
 
 			this.mResults.put(supportSets, NashEquilibrium.extractFromLcpResults(result, this.mGame));
 		}
@@ -147,11 +147,11 @@ public final class NashFinder {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder();
-		String lineSeparator = System.lineSeparator();
+		final StringBuilder result = new StringBuilder();
+		final String lineSeparator = System.lineSeparator();
 
 		boolean isFirstEntry = true;
-		for (Entry<List<SupportSet<String, String>>, NashEquilibrium<String, String>> entry : this.mResults
+		for (final Entry<List<SupportSet<String, String>>, NashEquilibrium<String, String>> entry : this.mResults
 				.entrySet()) {
 			if (isFirstEntry) {
 				isFirstEntry = false;
@@ -180,20 +180,20 @@ public final class NashFinder {
 	 */
 	private void addConstraintsForConstellation(final Problem problem, final SupportSet<String, String> protagonistSet,
 			final SupportSet<String, String> antagonistSet, final EExpectedUtilty protagonistExpectedUtiltyVar) {
-		String protagonist = protagonistSet.getPlayer();
+		final String protagonist = protagonistSet.getPlayer();
 
 		// Best response constraints
-		Iterator<String> responseIter = antagonistSet.getActions();
+		final Iterator<String> responseIter = antagonistSet.getActions();
 		while (responseIter.hasNext()) {
-			String response = responseIter.next();
-			Linear linear = new Linear();
-			Iterator<String> actionIter = protagonistSet.getActions();
+			final String response = responseIter.next();
+			final Linear linear = new Linear();
+			final Iterator<String> actionIter = protagonistSet.getActions();
 			while (actionIter.hasNext()) {
-				String action = actionIter.next();
-				ActionProfile<String> profile = new ActionProfile<>();
+				final String action = actionIter.next();
+				final ActionProfile<String> profile = new ActionProfile<>();
 				profile.addAction(action);
 				profile.addAction(response);
-				int payoff = this.mGame.getPayoffForPlayer(profile, protagonist);
+				final int payoff = this.mGame.getPayoffForPlayer(profile, protagonist);
 
 				linear.add(Integer.valueOf(payoff), new PlayerAction<>(protagonist, action));
 			}
@@ -202,10 +202,10 @@ public final class NashFinder {
 		}
 
 		// Correct chance distribution
-		Linear linear = new Linear();
+		final Linear linear = new Linear();
 		Iterator<String> actionIter = protagonistSet.getActions();
 		while (actionIter.hasNext()) {
-			String action = actionIter.next();
+			final String action = actionIter.next();
 			linear.add(Integer.valueOf(1), new PlayerAction<>(protagonist, action));
 		}
 		problem.add(linear, "=", Integer.valueOf(1));
@@ -213,7 +213,7 @@ public final class NashFinder {
 		// Lower bound
 		actionIter = protagonistSet.getActions();
 		while (actionIter.hasNext()) {
-			String action = actionIter.next();
+			final String action = actionIter.next();
 			problem.setVarLowerBound(new PlayerAction<>(protagonist, action), Integer.valueOf(0));
 		}
 	}
@@ -226,19 +226,19 @@ public final class NashFinder {
 	 *         for
 	 */
 	private List<List<SupportSet<String, String>>> buildSupportSets() {
-		List<List<SupportSet<String, String>>> supportSets = new LinkedList<>();
+		final List<List<SupportSet<String, String>>> supportSets = new LinkedList<>();
 
 		if (this.mUseSpecificSupportSets) {
 			// Only use the given support set
 			// Validate the support set before using it
-			for (SupportSet<String, String> supportSet : this.mSpecificSupportSets) {
-				String player = supportSet.getPlayer();
+			for (final SupportSet<String, String> supportSet : this.mSpecificSupportSets) {
+				final String player = supportSet.getPlayer();
 				if (!this.mGame.hasPlayer(player)) {
 					throw new IllegalStateException(ErrorMessages.SUPPORT_SET_INVALID);
 				}
-				Iterator<String> actionIter = supportSet.getActions();
+				final Iterator<String> actionIter = supportSet.getActions();
 				while (actionIter.hasNext()) {
-					String action = actionIter.next();
+					final String action = actionIter.next();
 					if (!this.mGame.hasPlayerAction(player, action)) {
 						throw new IllegalStateException(ErrorMessages.SUPPORT_SET_INVALID);
 					}
@@ -255,7 +255,7 @@ public final class NashFinder {
 		String firstPlayer = null;
 		String secondPlayer = null;
 
-		Iterator<String> playerIter = this.mGame.getPlayers();
+		final Iterator<String> playerIter = this.mGame.getPlayers();
 		if (playerIter.hasNext()) {
 			firstPlayer = playerIter.next();
 			if (playerIter.hasNext()) {
@@ -269,11 +269,11 @@ public final class NashFinder {
 			throw new IllegalArgumentException(ErrorMessages.BUILD_SUPPORT_SETS_GAME_INVALID);
 		}
 
-		Set<Set<String>> powerOfFirstPlayer = SetUtil.powerSet(firstPlayerActions);
-		Set<Set<String>> powerOfSecondPlayer = SetUtil.powerSet(secondPlayerActions);
-		for (Set<String> firstPlayerSet : powerOfFirstPlayer) {
-			for (Set<String> secondPlayerSet : powerOfSecondPlayer) {
-				List<SupportSet<String, String>> supportSetConstellation = new LinkedList<>();
+		final Set<Set<String>> powerOfFirstPlayer = SetUtil.powerSet(firstPlayerActions);
+		final Set<Set<String>> powerOfSecondPlayer = SetUtil.powerSet(secondPlayerActions);
+		for (final Set<String> firstPlayerSet : powerOfFirstPlayer) {
+			for (final Set<String> secondPlayerSet : powerOfSecondPlayer) {
+				final List<SupportSet<String, String>> supportSetConstellation = new LinkedList<>();
 				supportSetConstellation.add(new SupportSet<>(firstPlayer, firstPlayerSet));
 				supportSetConstellation.add(new SupportSet<>(secondPlayer, secondPlayerSet));
 

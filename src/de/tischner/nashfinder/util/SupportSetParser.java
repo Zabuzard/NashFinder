@@ -48,9 +48,9 @@ public final class SupportSetParser {
 			return null;
 		}
 
-		SupportSet<PLAYER, String> supportSetToReturn = new SupportSet<>(player);
-		String[] actions = supportSet.split(SUPPORT_SET_ACTION_SEPARATOR);
-		for (String action : actions) {
+		final SupportSet<PLAYER, String> supportSetToReturn = new SupportSet<>(player);
+		final String[] actions = supportSet.split(SUPPORT_SET_ACTION_SEPARATOR);
+		for (final String action : actions) {
 			supportSetToReturn.addAction(action.trim());
 		}
 
@@ -75,20 +75,20 @@ public final class SupportSetParser {
 	 */
 	public static <PLAYER> List<SupportSet<PLAYER, String>> parseSupportSets(final String supportSets,
 			final Iterator<PLAYER> players) {
-		List<SupportSet<PLAYER, String>> supportSetsAsList = new LinkedList<>();
+		final List<SupportSet<PLAYER, String>> supportSetsAsList = new LinkedList<>();
 		if (supportSets == null || supportSets.isEmpty() || players == null) {
 			return supportSetsAsList;
 		}
 
-		Pattern pattern = Pattern.compile(SUPPORT_SETS_NEEDLE);
-		Matcher matcher = pattern.matcher(supportSets.trim());
+		final Pattern pattern = Pattern.compile(SUPPORT_SETS_NEEDLE);
+		final Matcher matcher = pattern.matcher(supportSets.trim());
 		while (matcher.find()) {
-			String supportSetAsText = matcher.group(1).trim();
+			final String supportSetAsText = matcher.group(1).trim();
 			if (!players.hasNext()) {
 				throw new IllegalArgumentException(ErrorMessages.SUPPORT_SET_PARSE_ERROR_PLAYER_SIZE);
 			}
-			PLAYER player = players.next();
-			SupportSet<PLAYER, String> supportSet = parseSupportSet(supportSetAsText, player);
+			final PLAYER player = players.next();
+			final SupportSet<PLAYER, String> supportSet = parseSupportSet(supportSetAsText, player);
 			if (supportSet == null) {
 				throw new IllegalArgumentException(
 						ErrorMessages.SUPPORT_SET_PARSE_ERROR_FORMAT + " Got: " + supportSetAsText);

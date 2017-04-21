@@ -53,14 +53,14 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 		if (result == null) {
 			return null;
 		}
-		NashEquilibrium<PLAYER, ACTION> nashEquilibrium = new NashEquilibrium<>();
+		final NashEquilibrium<PLAYER, ACTION> nashEquilibrium = new NashEquilibrium<>();
 
 		PLAYER firstPlayer = null;
 		PLAYER secondPlayer = null;
 		Set<ACTION> firstPlayerActions = null;
 		Set<ACTION> secondPlayerActions = null;
 
-		Iterator<PLAYER> playerIter = game.getPlayers();
+		final Iterator<PLAYER> playerIter = game.getPlayers();
 		if (playerIter.hasNext()) {
 			firstPlayer = playerIter.next();
 			if (playerIter.hasNext()) {
@@ -81,10 +81,10 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 				MathUtil.roundNumberTo(result.getPrimalValue(EExpectedUtilty.SECOND_PLAYER), ROUNDING_DECIMAL_SCALE));
 
 		// Extract nash strategies
-		NashStrategy<ACTION> firstPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, firstPlayer,
+		final NashStrategy<ACTION> firstPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, firstPlayer,
 				firstPlayerActions);
 		nashEquilibrium.setNashStrategyForPlayer(firstPlayer, firstPlayerStrategy);
-		NashStrategy<ACTION> secondPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, secondPlayer,
+		final NashStrategy<ACTION> secondPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, secondPlayer,
 				secondPlayerActions);
 		nashEquilibrium.setNashStrategyForPlayer(secondPlayer, secondPlayerStrategy);
 
@@ -109,10 +109,10 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 */
 	private static <PLAYER, ACTION> NashStrategy<ACTION> extractPlayerNashStrategyFromLcpResults(final Result result,
 			final PLAYER player, final Set<ACTION> playerActions) {
-		NashStrategy<ACTION> nashStrategy = new NashStrategy<>();
-		for (ACTION action : playerActions) {
-			PlayerAction<PLAYER, ACTION> playerAction = new PlayerAction<>(player, action);
-			Number probability = result.getPrimalValue(playerAction);
+		final NashStrategy<ACTION> nashStrategy = new NashStrategy<>();
+		for (final ACTION action : playerActions) {
+			final PlayerAction<PLAYER, ACTION> playerAction = new PlayerAction<>(player, action);
+			final Number probability = result.getPrimalValue(playerAction);
 			if (probability != null) {
 				nashStrategy.addAction(action, MathUtil.roundNumberTo(probability, ROUNDING_DECIMAL_SCALE));
 			}
@@ -146,7 +146,7 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -156,7 +156,7 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 		if (!(obj instanceof NashEquilibrium)) {
 			return false;
 		}
-		NashEquilibrium<?, ?> other = (NashEquilibrium<?, ?>) obj;
+		final NashEquilibrium<?, ?> other = (NashEquilibrium<?, ?>) obj;
 		if (this.mPlayerToStrategy == null) {
 			if (other.mPlayerToStrategy != null) {
 				return false;
@@ -243,12 +243,12 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder();
-		String lineSeparator = System.lineSeparator();
+		final StringBuilder result = new StringBuilder();
+		final String lineSeparator = System.lineSeparator();
 
 		boolean isFirstEntry = true;
-		for (Entry<PLAYER, NashStrategy<ACTION>> entry : this.mPlayerToStrategy.entrySet()) {
-			Number utility = this.mPlayerToUtility.get(entry.getKey());
+		for (final Entry<PLAYER, NashStrategy<ACTION>> entry : this.mPlayerToStrategy.entrySet()) {
+			final Number utility = this.mPlayerToUtility.get(entry.getKey());
 			if (isFirstEntry) {
 				isFirstEntry = false;
 			} else {

@@ -40,7 +40,7 @@ public final class PlayerAction<PLAYER, ACTION> {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -50,7 +50,7 @@ public final class PlayerAction<PLAYER, ACTION> {
 		if (!(obj instanceof PlayerAction)) {
 			return false;
 		}
-		PlayerAction<?, ?> other = (PlayerAction<?, ?>) obj;
+		final PlayerAction<?, ?> other = (PlayerAction<?, ?>) obj;
 		if (this.mAction == null) {
 			if (other.mAction != null) {
 				return false;

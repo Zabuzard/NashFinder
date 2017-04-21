@@ -64,7 +64,7 @@ public final class NashStrategy<ACTION> {
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -74,7 +74,7 @@ public final class NashStrategy<ACTION> {
 		if (!(obj instanceof NashStrategy)) {
 			return false;
 		}
-		NashStrategy<?> other = (NashStrategy<?>) obj;
+		final NashStrategy<?> other = (NashStrategy<?>) obj;
 		if (this.mActionToProbability == null) {
 			if (other.mActionToProbability != null) {
 				return false;

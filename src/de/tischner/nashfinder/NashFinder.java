@@ -86,16 +86,16 @@ public final class NashFinder {
 	 *            whereas player 2 only has action <tt>T</tt>.
 	 */
 	public NashFinder(final String gameFileName, final String specificSupportSets) {
-		mUseSpecificSupportSets = specificSupportSets != null && specificSupportSets.length() != 0;
-		mGame = StrategicGameParser.parseStrategicGameJson(gameFileName);
+		this.mUseSpecificSupportSets = specificSupportSets != null && specificSupportSets.length() != 0;
+		this.mGame = StrategicGameParser.parseStrategicGameJson(gameFileName);
 
-		if (mUseSpecificSupportSets) {
-			mSpecificSupportSets = SupportSetParser.parseSupportSets(specificSupportSets, mGame.getPlayers());
+		if (this.mUseSpecificSupportSets) {
+			this.mSpecificSupportSets = SupportSetParser.parseSupportSets(specificSupportSets, this.mGame.getPlayers());
 		} else {
-			mSpecificSupportSets = null;
+			this.mSpecificSupportSets = null;
 		}
 
-		mResults = new LinkedHashMap<>();
+		this.mResults = new LinkedHashMap<>();
 	}
 
 	/**
@@ -110,12 +110,12 @@ public final class NashFinder {
 			SupportSet<String, String> secondPlayerSet = supportSets.get(1);
 
 			SolverFactory factory = new SolverFactoryLpSolve();
-			factory.setParameter(Solver.VERBOSE, VERBOSE_VALUE);
-			factory.setParameter(Solver.TIMEOUT, TIMEOUT_MILLIS);
+			factory.setParameter(Integer.valueOf(Solver.VERBOSE), Integer.valueOf(VERBOSE_VALUE));
+			factory.setParameter(Integer.valueOf(Solver.TIMEOUT), Integer.valueOf(TIMEOUT_MILLIS));
 			Problem problem = new Problem();
 			Linear linear = new Linear();
-			linear.add(1, EExpectedUtilty.FIRST_PLAYER);
-			linear.add(1, EExpectedUtilty.SECOND_PLAYER);
+			linear.add(Integer.valueOf(1), EExpectedUtilty.FIRST_PLAYER);
+			linear.add(Integer.valueOf(1), EExpectedUtilty.SECOND_PLAYER);
 			problem.setObjective(linear, OptType.MAX);
 			problem.setVarType(EExpectedUtilty.FIRST_PLAYER, Double.class);
 			problem.setVarType(EExpectedUtilty.SECOND_PLAYER, Double.class);
@@ -128,7 +128,7 @@ public final class NashFinder {
 			Solver solver = factory.get();
 			Result result = solver.solve(problem);
 
-			mResults.put(supportSets, NashEquilibrium.extractFromLcpResults(result, mGame));
+			this.mResults.put(supportSets, NashEquilibrium.extractFromLcpResults(result, this.mGame));
 		}
 	}
 
@@ -151,7 +151,8 @@ public final class NashFinder {
 		String lineSeparator = System.lineSeparator();
 
 		boolean isFirstEntry = true;
-		for (Entry<List<SupportSet<String, String>>, NashEquilibrium<String, String>> entry : mResults.entrySet()) {
+		for (Entry<List<SupportSet<String, String>>, NashEquilibrium<String, String>> entry : this.mResults
+				.entrySet()) {
 			if (isFirstEntry) {
 				isFirstEntry = false;
 			} else {
@@ -192,12 +193,12 @@ public final class NashFinder {
 				ActionProfile<String> profile = new ActionProfile<>();
 				profile.addAction(action);
 				profile.addAction(response);
-				int payoff = mGame.getPayoffForPlayer(profile, protagonist);
+				int payoff = this.mGame.getPayoffForPlayer(profile, protagonist);
 
-				linear.add(payoff, new PlayerAction<String, String>(protagonist, action));
+				linear.add(Integer.valueOf(payoff), new PlayerAction<>(protagonist, action));
 			}
-			linear.add(-1, protagonistExpectedUtiltyVar);
-			problem.add(linear, ">=", 0);
+			linear.add(Integer.valueOf(-1), protagonistExpectedUtiltyVar);
+			problem.add(linear, ">=", Integer.valueOf(0));
 		}
 
 		// Correct chance distribution
@@ -205,15 +206,15 @@ public final class NashFinder {
 		Iterator<String> actionIter = protagonistSet.getActions();
 		while (actionIter.hasNext()) {
 			String action = actionIter.next();
-			linear.add(1, new PlayerAction<String, String>(protagonist, action));
+			linear.add(Integer.valueOf(1), new PlayerAction<>(protagonist, action));
 		}
-		problem.add(linear, "=", 1);
+		problem.add(linear, "=", Integer.valueOf(1));
 
 		// Lower bound
 		actionIter = protagonistSet.getActions();
 		while (actionIter.hasNext()) {
 			String action = actionIter.next();
-			problem.setVarLowerBound(new PlayerAction<String, String>(protagonist, action), 0);
+			problem.setVarLowerBound(new PlayerAction<>(protagonist, action), Integer.valueOf(0));
 		}
 	}
 
@@ -227,60 +228,59 @@ public final class NashFinder {
 	private List<List<SupportSet<String, String>>> buildSupportSets() {
 		List<List<SupportSet<String, String>>> supportSets = new LinkedList<>();
 
-		if (mUseSpecificSupportSets) {
+		if (this.mUseSpecificSupportSets) {
 			// Only use the given support set
 			// Validate the support set before using it
-			for (SupportSet<String, String> supportSet : mSpecificSupportSets) {
+			for (SupportSet<String, String> supportSet : this.mSpecificSupportSets) {
 				String player = supportSet.getPlayer();
-				if (!mGame.hasPlayer(player)) {
+				if (!this.mGame.hasPlayer(player)) {
 					throw new IllegalStateException(ErrorMessages.SUPPORT_SET_INVALID);
 				}
 				Iterator<String> actionIter = supportSet.getActions();
 				while (actionIter.hasNext()) {
 					String action = actionIter.next();
-					if (!mGame.hasPlayerAction(player, action)) {
+					if (!this.mGame.hasPlayerAction(player, action)) {
 						throw new IllegalStateException(ErrorMessages.SUPPORT_SET_INVALID);
 					}
 				}
 			}
 
-			supportSets.add(mSpecificSupportSets);
-			return supportSets;
-		} else {
-			// Build all possible support sets
-			Set<String> firstPlayerActions = null;
-			Set<String> secondPlayerActions = null;
-			String firstPlayer = null;
-			String secondPlayer = null;
-
-			Iterator<String> playerIter = mGame.getPlayers();
-			if (playerIter.hasNext()) {
-				firstPlayer = playerIter.next();
-				if (playerIter.hasNext()) {
-					secondPlayer = playerIter.next();
-
-					firstPlayerActions = mGame.getPlayerActions(firstPlayer);
-					secondPlayerActions = mGame.getPlayerActions(secondPlayer);
-				}
-			}
-			if (firstPlayerActions == null || secondPlayerActions == null || firstPlayer == null
-					|| secondPlayer == null) {
-				throw new IllegalArgumentException(ErrorMessages.BUILD_SUPPORT_SETS_GAME_INVALID);
-			}
-
-			Set<Set<String>> powerOfFirstPlayer = SetUtil.powerSet(firstPlayerActions);
-			Set<Set<String>> powerOfSecondPlayer = SetUtil.powerSet(secondPlayerActions);
-			for (Set<String> firstPlayerSet : powerOfFirstPlayer) {
-				for (Set<String> secondPlayerSet : powerOfSecondPlayer) {
-					List<SupportSet<String, String>> supportSetConstellation = new LinkedList<>();
-					supportSetConstellation.add(new SupportSet<String, String>(firstPlayer, firstPlayerSet));
-					supportSetConstellation.add(new SupportSet<String, String>(secondPlayer, secondPlayerSet));
-
-					supportSets.add(supportSetConstellation);
-				}
-			}
-
+			supportSets.add(this.mSpecificSupportSets);
 			return supportSets;
 		}
+
+		// Build all possible support sets
+		Set<String> firstPlayerActions = null;
+		Set<String> secondPlayerActions = null;
+		String firstPlayer = null;
+		String secondPlayer = null;
+
+		Iterator<String> playerIter = this.mGame.getPlayers();
+		if (playerIter.hasNext()) {
+			firstPlayer = playerIter.next();
+			if (playerIter.hasNext()) {
+				secondPlayer = playerIter.next();
+
+				firstPlayerActions = this.mGame.getPlayerActions(firstPlayer);
+				secondPlayerActions = this.mGame.getPlayerActions(secondPlayer);
+			}
+		}
+		if (firstPlayerActions == null || secondPlayerActions == null || firstPlayer == null || secondPlayer == null) {
+			throw new IllegalArgumentException(ErrorMessages.BUILD_SUPPORT_SETS_GAME_INVALID);
+		}
+
+		Set<Set<String>> powerOfFirstPlayer = SetUtil.powerSet(firstPlayerActions);
+		Set<Set<String>> powerOfSecondPlayer = SetUtil.powerSet(secondPlayerActions);
+		for (Set<String> firstPlayerSet : powerOfFirstPlayer) {
+			for (Set<String> secondPlayerSet : powerOfSecondPlayer) {
+				List<SupportSet<String, String>> supportSetConstellation = new LinkedList<>();
+				supportSetConstellation.add(new SupportSet<>(firstPlayer, firstPlayerSet));
+				supportSetConstellation.add(new SupportSet<>(secondPlayer, secondPlayerSet));
+
+				supportSets.add(supportSetConstellation);
+			}
+		}
+
+		return supportSets;
 	}
 }

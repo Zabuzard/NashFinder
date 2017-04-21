@@ -36,6 +36,10 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 * Creates a nash equilibrium based on the results of a solved <i>linear
 	 * program</i> (LP).
 	 * 
+	 * @param <PLAYER>
+	 *            The actual class of the players
+	 * @param <ACTION>
+	 *            The actual class of actions
 	 * @param result
 	 *            Results of a solved LP
 	 * @param game
@@ -77,10 +81,10 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 				MathUtil.roundNumberTo(result.getPrimalValue(EExpectedUtilty.SECOND_PLAYER), ROUNDING_DECIMAL_SCALE));
 
 		// Extract nash strategies
-		NashStrategy<ACTION> firstPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, game, firstPlayer,
+		NashStrategy<ACTION> firstPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, firstPlayer,
 				firstPlayerActions);
 		nashEquilibrium.setNashStrategyForPlayer(firstPlayer, firstPlayerStrategy);
-		NashStrategy<ACTION> secondPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, game, secondPlayer,
+		NashStrategy<ACTION> secondPlayerStrategy = extractPlayerNashStrategyFromLcpResults(result, secondPlayer,
 				secondPlayerActions);
 		nashEquilibrium.setNashStrategyForPlayer(secondPlayer, secondPlayerStrategy);
 
@@ -91,10 +95,12 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 * Creates a nash strategy for a given player based on the results of a
 	 * solved <i>linear program</i> (LP).
 	 * 
+	 * @param <PLAYER>
+	 *            The actual class of players
+	 * @param <ACTION>
+	 *            The actual class of actions
 	 * @param result
 	 *            Results of a solved LP
-	 * @param game
-	 *            Game the equilibrium and the results belong to
 	 * @param player
 	 *            Player to extract a nash strategy for
 	 * @param playerActions
@@ -102,7 +108,7 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 * @return A nash strategy for the given player that was computed by the LP
 	 */
 	private static <PLAYER, ACTION> NashStrategy<ACTION> extractPlayerNashStrategyFromLcpResults(final Result result,
-			final StrategicGame<PLAYER, ACTION> game, final PLAYER player, final Set<ACTION> playerActions) {
+			final PLAYER player, final Set<ACTION> playerActions) {
 		NashStrategy<ACTION> nashStrategy = new NashStrategy<>();
 		for (ACTION action : playerActions) {
 			PlayerAction<PLAYER, ACTION> playerAction = new PlayerAction<>(player, action);
@@ -130,8 +136,8 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 * Creates a new empty nash equilibrium.
 	 */
 	public NashEquilibrium() {
-		mPlayerToStrategy = new LinkedHashMap<>();
-		mPlayerToUtility = new LinkedHashMap<>();
+		this.mPlayerToStrategy = new LinkedHashMap<>();
+		this.mPlayerToUtility = new LinkedHashMap<>();
 	}
 
 	/*
@@ -151,18 +157,18 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 			return false;
 		}
 		NashEquilibrium<?, ?> other = (NashEquilibrium<?, ?>) obj;
-		if (mPlayerToStrategy == null) {
+		if (this.mPlayerToStrategy == null) {
 			if (other.mPlayerToStrategy != null) {
 				return false;
 			}
-		} else if (!mPlayerToStrategy.equals(other.mPlayerToStrategy)) {
+		} else if (!this.mPlayerToStrategy.equals(other.mPlayerToStrategy)) {
 			return false;
 		}
-		if (mPlayerToUtility == null) {
+		if (this.mPlayerToUtility == null) {
 			if (other.mPlayerToUtility != null) {
 				return false;
 			}
-		} else if (!mPlayerToUtility.equals(other.mPlayerToUtility)) {
+		} else if (!this.mPlayerToUtility.equals(other.mPlayerToUtility)) {
 			return false;
 		}
 		return true;
@@ -176,7 +182,7 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 * @return The expected utility of a given player
 	 */
 	public Number getExpectedUtilityOfPlayer(final PLAYER player) {
-		return mPlayerToUtility.get(player);
+		return this.mPlayerToUtility.get(player);
 	}
 
 	/**
@@ -187,7 +193,7 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 * @return The nash strategy of the given player
 	 */
 	public NashStrategy<ACTION> getNashStrategyOfPlayer(final PLAYER player) {
-		return mPlayerToStrategy.get(player);
+		return this.mPlayerToStrategy.get(player);
 	}
 
 	/*
@@ -199,8 +205,8 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((mPlayerToStrategy == null) ? 0 : mPlayerToStrategy.hashCode());
-		result = prime * result + ((mPlayerToUtility == null) ? 0 : mPlayerToUtility.hashCode());
+		result = prime * result + ((this.mPlayerToStrategy == null) ? 0 : this.mPlayerToStrategy.hashCode());
+		result = prime * result + ((this.mPlayerToUtility == null) ? 0 : this.mPlayerToUtility.hashCode());
 		return result;
 	}
 
@@ -214,7 +220,7 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 *            equilibrium
 	 */
 	public void setExpectedUtilityForPlayer(final PLAYER player, final Number expectedUtility) {
-		mPlayerToUtility.put(player, expectedUtility);
+		this.mPlayerToUtility.put(player, expectedUtility);
 	}
 
 	/**
@@ -227,7 +233,7 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 	 *            Nash strategy for the given player in this nash equilibrium
 	 */
 	public void setNashStrategyForPlayer(final PLAYER player, final NashStrategy<ACTION> strategy) {
-		mPlayerToStrategy.put(player, strategy);
+		this.mPlayerToStrategy.put(player, strategy);
 	}
 
 	/*
@@ -241,8 +247,8 @@ public final class NashEquilibrium<PLAYER, ACTION> {
 		String lineSeparator = System.lineSeparator();
 
 		boolean isFirstEntry = true;
-		for (Entry<PLAYER, NashStrategy<ACTION>> entry : mPlayerToStrategy.entrySet()) {
-			Number utility = mPlayerToUtility.get(entry.getKey());
+		for (Entry<PLAYER, NashStrategy<ACTION>> entry : this.mPlayerToStrategy.entrySet()) {
+			Number utility = this.mPlayerToUtility.get(entry.getKey());
 			if (isFirstEntry) {
 				isFirstEntry = false;
 			} else {

@@ -35,7 +35,7 @@ public final class NashStrategy<ACTION> {
 	 * Creates a new empty nash strategy.
 	 */
 	public NashStrategy() {
-		mActionToProbability = new LinkedHashMap<>();
+		this.mActionToProbability = new LinkedHashMap<>();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public final class NashStrategy<ACTION> {
 				|| probability.doubleValue() > PROBABILITY_UPPER_BOUND) {
 			throw new IllegalArgumentException(ErrorMessages.PROBABILITY_EXCEEDS_LIMITS + " Got: " + probability);
 		}
-		mActionToProbability.put(action, probability);
+		this.mActionToProbability.put(action, probability);
 	}
 
 	/*
@@ -75,11 +75,11 @@ public final class NashStrategy<ACTION> {
 			return false;
 		}
 		NashStrategy<?> other = (NashStrategy<?>) obj;
-		if (mActionToProbability == null) {
+		if (this.mActionToProbability == null) {
 			if (other.mActionToProbability != null) {
 				return false;
 			}
-		} else if (!mActionToProbability.equals(other.mActionToProbability)) {
+		} else if (!this.mActionToProbability.equals(other.mActionToProbability)) {
 			return false;
 		}
 		return true;
@@ -94,7 +94,7 @@ public final class NashStrategy<ACTION> {
 	 *         <tt>1</tt> (both inclusive)
 	 */
 	public Number getActionProbability(final ACTION action) {
-		return mActionToProbability.get(action);
+		return this.mActionToProbability.get(action);
 	}
 
 	/*
@@ -106,7 +106,7 @@ public final class NashStrategy<ACTION> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((mActionToProbability == null) ? 0 : mActionToProbability.hashCode());
+		result = prime * result + ((this.mActionToProbability == null) ? 0 : this.mActionToProbability.hashCode());
 		return result;
 	}
 
@@ -117,6 +117,6 @@ public final class NashStrategy<ACTION> {
 	 */
 	@Override
 	public String toString() {
-		return mActionToProbability.toString();
+		return this.mActionToProbability.toString();
 	}
 }

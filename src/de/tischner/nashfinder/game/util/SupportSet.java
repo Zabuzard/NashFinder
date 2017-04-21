@@ -44,8 +44,8 @@ public final class SupportSet<PLAYER, ACTION> {
 	 *            Set of actions the player has access to
 	 */
 	public SupportSet(final PLAYER player, final Set<ACTION> actions) {
-		mPlayer = player;
-		mActions = new LinkedHashSet<ACTION>();
+		this.mPlayer = player;
+		this.mActions = new LinkedHashSet<>();
 		if (actions != null) {
 			for (ACTION action : actions) {
 				addAction(action);
@@ -62,7 +62,7 @@ public final class SupportSet<PLAYER, ACTION> {
 	 *         specified action
 	 */
 	public boolean addAction(final ACTION action) {
-		return mActions.add(action);
+		return this.mActions.add(action);
 	}
 
 	/*
@@ -82,18 +82,18 @@ public final class SupportSet<PLAYER, ACTION> {
 			return false;
 		}
 		SupportSet<?, ?> other = (SupportSet<?, ?>) obj;
-		if (mActions == null) {
+		if (this.mActions == null) {
 			if (other.mActions != null) {
 				return false;
 			}
-		} else if (!mActions.equals(other.mActions)) {
+		} else if (!this.mActions.equals(other.mActions)) {
 			return false;
 		}
-		if (mPlayer == null) {
+		if (this.mPlayer == null) {
 			if (other.mPlayer != null) {
 				return false;
 			}
-		} else if (!mPlayer.equals(other.mPlayer)) {
+		} else if (!this.mPlayer.equals(other.mPlayer)) {
 			return false;
 		}
 		return true;
@@ -105,7 +105,7 @@ public final class SupportSet<PLAYER, ACTION> {
 	 * @return All actions the player of this support set has access to
 	 */
 	public Iterator<ACTION> getActions() {
-		return mActions.iterator();
+		return this.mActions.iterator();
 	}
 
 	/**
@@ -114,7 +114,7 @@ public final class SupportSet<PLAYER, ACTION> {
 	 * @return The player of this support set
 	 */
 	public PLAYER getPlayer() {
-		return mPlayer;
+		return this.mPlayer;
 	}
 
 	/**
@@ -126,7 +126,7 @@ public final class SupportSet<PLAYER, ACTION> {
 	 *         <tt>false</tt> otherwise.
 	 */
 	public boolean hasAction(final ACTION action) {
-		return mActions.contains(action);
+		return this.mActions.contains(action);
 	}
 
 	/*
@@ -138,8 +138,8 @@ public final class SupportSet<PLAYER, ACTION> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((mActions == null) ? 0 : mActions.hashCode());
-		result = prime * result + ((mPlayer == null) ? 0 : mPlayer.hashCode());
+		result = prime * result + ((this.mActions == null) ? 0 : this.mActions.hashCode());
+		result = prime * result + ((this.mPlayer == null) ? 0 : this.mPlayer.hashCode());
 		return result;
 	}
 
@@ -150,6 +150,6 @@ public final class SupportSet<PLAYER, ACTION> {
 	 */
 	@Override
 	public String toString() {
-		return mPlayer + ": " + mActions;
+		return this.mPlayer + ": " + this.mActions;
 	}
 }

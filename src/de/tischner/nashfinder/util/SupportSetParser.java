@@ -33,6 +33,8 @@ public final class SupportSetParser {
 	/**
 	 * Parses a support set of a given string for a given player.
 	 * 
+	 * @param <PLAYER>
+	 *            The actual class of players
 	 * @param supportSet
 	 *            The support set to parse. The format is <tt>H, T</tt>, where
 	 *            the given player has access to the actions <tt>H</tt> and
@@ -59,6 +61,8 @@ public final class SupportSetParser {
 	 * Parses support sets of a given string by assigning a support set to every
 	 * player in the given iterator.
 	 * 
+	 * @param <PLAYER>
+	 *            The actual class of players
 	 * @param supportSets
 	 *            Support sets for all players. The format is <tt>[H,T][T]</tt>,
 	 *            where every player has the given actions. For example, player

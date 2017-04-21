@@ -18,6 +18,8 @@ public final class SetUtil {
 	/**
 	 * Creates the cartesian product of a list of sets.
 	 * 
+	 * @param <K>
+	 *            The actual class of the sets content
 	 * @param sets
 	 *            The sets for the product
 	 * @return The cartesian product of the given sets
@@ -32,6 +34,8 @@ public final class SetUtil {
 	/**
 	 * Creates the cartesian product of the given set with itself.
 	 * 
+	 * @param <K>
+	 *            The actual class of the sets content
 	 * @param set
 	 *            The set for the product
 	 * @return The cartesian product of the given set with itself
@@ -46,6 +50,8 @@ public final class SetUtil {
 	/**
 	 * Creates the power set of the given set.
 	 * 
+	 * @param <K>
+	 *            The actual class of the sets content
 	 * @param set
 	 *            The set for the power set
 	 * @return The power set of the given set
@@ -57,12 +63,12 @@ public final class SetUtil {
 			sets.add(new LinkedHashSet<K>());
 			return sets;
 		}
-		List<K> list = new ArrayList<K>(set);
+		List<K> list = new ArrayList<>(set);
 		// Fix the head and add the other results with and without the head
 		K head = list.get(0);
-		Set<K> rest = new LinkedHashSet<K>(list.subList(1, list.size()));
+		Set<K> rest = new LinkedHashSet<>(list.subList(1, list.size()));
 		for (Set<K> otherSet : powerSet(rest)) {
-			Set<K> currentSet = new LinkedHashSet<K>();
+			Set<K> currentSet = new LinkedHashSet<>();
 			currentSet.add(head);
 			currentSet.addAll(otherSet);
 			sets.add(currentSet);
@@ -75,6 +81,8 @@ public final class SetUtil {
 	 * Creates the cartesian product of a list of sets with the set specified by
 	 * the given index position.
 	 * 
+	 * @param <K>
+	 *            The actual class of the sets content
 	 * @param index
 	 *            Position of the set that should be fixed for the product
 	 * @param sets

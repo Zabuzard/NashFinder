@@ -30,8 +30,8 @@ public final class PlayerAction<PLAYER, ACTION> {
 	 *            Action to associate
 	 */
 	public PlayerAction(final PLAYER player, final ACTION action) {
-		mPlayer = player;
-		mAction = action;
+		this.mPlayer = player;
+		this.mAction = action;
 	}
 
 	/*
@@ -51,18 +51,18 @@ public final class PlayerAction<PLAYER, ACTION> {
 			return false;
 		}
 		PlayerAction<?, ?> other = (PlayerAction<?, ?>) obj;
-		if (mAction == null) {
+		if (this.mAction == null) {
 			if (other.mAction != null) {
 				return false;
 			}
-		} else if (!mAction.equals(other.mAction)) {
+		} else if (!this.mAction.equals(other.mAction)) {
 			return false;
 		}
-		if (mPlayer == null) {
+		if (this.mPlayer == null) {
 			if (other.mPlayer != null) {
 				return false;
 			}
-		} else if (!mPlayer.equals(other.mPlayer)) {
+		} else if (!this.mPlayer.equals(other.mPlayer)) {
 			return false;
 		}
 		return true;
@@ -74,7 +74,7 @@ public final class PlayerAction<PLAYER, ACTION> {
 	 * @return The associated action
 	 */
 	public ACTION getAction() {
-		return mAction;
+		return this.mAction;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public final class PlayerAction<PLAYER, ACTION> {
 	 * @return The associated player
 	 */
 	public PLAYER getPlayer() {
-		return mPlayer;
+		return this.mPlayer;
 	}
 
 	/*
@@ -95,8 +95,8 @@ public final class PlayerAction<PLAYER, ACTION> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((mAction == null) ? 0 : mAction.hashCode());
-		result = prime * result + ((mPlayer == null) ? 0 : mPlayer.hashCode());
+		result = prime * result + ((this.mAction == null) ? 0 : this.mAction.hashCode());
+		result = prime * result + ((this.mPlayer == null) ? 0 : this.mPlayer.hashCode());
 		return result;
 	}
 
@@ -107,6 +107,6 @@ public final class PlayerAction<PLAYER, ACTION> {
 	 */
 	@Override
 	public String toString() {
-		return mPlayer + ":" + mAction;
+		return this.mPlayer + ":" + this.mAction;
 	}
 }

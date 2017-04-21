@@ -42,9 +42,9 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 * Creates a new empty strategic game.
 	 */
 	public StrategicGame() {
-		mPlayers = new LinkedHashSet<>();
-		mPlayerToActions = new HashMap<>();
-		mProfileToPayoff = new HashMap<>();
+		this.mPlayers = new LinkedHashSet<>();
+		this.mPlayerToActions = new HashMap<>();
+		this.mProfileToPayoff = new HashMap<>();
 	}
 
 	/**
@@ -58,12 +58,12 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 *         the specified action
 	 */
 	public boolean addAction(final ACTION action, final PLAYER player) {
-		Set<ACTION> actions = mPlayerToActions.get(player);
+		Set<ACTION> actions = this.mPlayerToActions.get(player);
 		if (actions == null) {
 			actions = new LinkedHashSet<>();
 		}
 		boolean wasAdded = actions.add(action);
-		mPlayerToActions.put(player, actions);
+		this.mPlayerToActions.put(player, actions);
 
 		return wasAdded;
 	}
@@ -79,10 +79,10 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 *            Action profile to add the payoff list for
 	 */
 	public void addPayoff(final List<Integer> payoff, final ActionProfile<ACTION> actionProfile) {
-		if (payoff == null || payoff.size() != mPlayers.size() || payoff.size() != actionProfile.size()) {
+		if (payoff == null || payoff.size() != this.mPlayers.size() || payoff.size() != actionProfile.size()) {
 			throw new IllegalArgumentException(ErrorMessages.GAME_ADD_PAYOFF_ILLEGAL_PAYOFF);
 		}
-		mProfileToPayoff.put(actionProfile, payoff);
+		this.mProfileToPayoff.put(actionProfile, payoff);
 	}
 
 	/**
@@ -94,7 +94,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 *         player
 	 */
 	public boolean addPlayer(final PLAYER player) {
-		return mPlayers.add(player);
+		return this.mPlayers.add(player);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 * @return Payoff list for the given action profile
 	 */
 	public List<Integer> getPayoff(final ActionProfile<ACTION> actionProfile) {
-		return mProfileToPayoff.get(actionProfile);
+		return this.mProfileToPayoff.get(actionProfile);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	public int getPayoffForPlayer(final ActionProfile<ACTION> actionProfile, PLAYER player) {
 		List<Integer> payoff = getPayoff(actionProfile);
 
-		Iterator<PLAYER> playerIter = mPlayers.iterator();
+		Iterator<PLAYER> playerIter = this.mPlayers.iterator();
 		for (int singlePayoff : payoff) {
 			if (playerIter.hasNext()) {
 				PLAYER currentPlayer = playerIter.next();
@@ -140,7 +140,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 * @return Set of actions for the given player
 	 */
 	public Set<ACTION> getPlayerActions(final PLAYER player) {
-		return mPlayerToActions.get(player);
+		return this.mPlayerToActions.get(player);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 * @return All players of this game
 	 */
 	public Iterator<PLAYER> getPlayers() {
-		return mPlayers.iterator();
+		return this.mPlayers.iterator();
 	}
 
 	/**
@@ -161,7 +161,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 *         otherwise
 	 */
 	public boolean hasPlayer(final PLAYER player) {
-		return mPlayers.contains(player);
+		return this.mPlayers.contains(player);
 	}
 
 	/**
@@ -175,7 +175,7 @@ public final class StrategicGame<PLAYER, ACTION> {
 	 *         otherwise
 	 */
 	public boolean hasPlayerAction(final PLAYER player, final ACTION action) {
-		Set<ACTION> playerActions = mPlayerToActions.get(player);
+		Set<ACTION> playerActions = this.mPlayerToActions.get(player);
 		return playerActions != null && playerActions.contains(action);
 	}
 
@@ -189,9 +189,9 @@ public final class StrategicGame<PLAYER, ACTION> {
 		String separator = System.lineSeparator();
 		StringBuilder result = new StringBuilder();
 
-		result.append("Players: " + mPlayers + separator);
-		result.append("PlayerToActions:" + mPlayerToActions + separator);
-		result.append("ProfileToPayoff: " + mProfileToPayoff);
+		result.append("Players: " + this.mPlayers + separator);
+		result.append("PlayerToActions:" + this.mPlayerToActions + separator);
+		result.append("ProfileToPayoff: " + this.mProfileToPayoff);
 
 		return result.toString();
 	}

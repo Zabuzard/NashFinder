@@ -93,6 +93,7 @@ public final class StrategicGameParser {
 				|| !(json.get(JSON_KEY_ACTIONS) instanceof JSONListAdapter)
 				|| !(json.get(JSON_KEY_PAYOFFS) instanceof JSONListAdapter)) {
 			exitJsonParseError();
+			return null;
 		}
 
 		StrategicGame<String, String> game = new StrategicGame<>();
@@ -153,7 +154,7 @@ public final class StrategicGameParser {
 				}
 				JSONListAdapter matrixEntryAsList = (JSONListAdapter) matrixEntry;
 
-				List<Integer> payoffAsList = new LinkedList<Integer>();
+				List<Integer> payoffAsList = new LinkedList<>();
 				for (Object singlePayoff : matrixEntryAsList) {
 					if (!(singlePayoff instanceof Integer)) {
 						exitJsonParseError();

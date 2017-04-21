@@ -26,7 +26,7 @@ public final class ActionProfile<ACTION> {
 	 * Creates a new empty action profile.
 	 */
 	public ActionProfile() {
-		mProfile = new LinkedList<>();
+		this.mProfile = new LinkedList<>();
 	}
 
 	/**
@@ -34,10 +34,10 @@ public final class ActionProfile<ACTION> {
 	 * 
 	 * @param action
 	 *            Action to add.
-	 * @return <tt>True</tt> (as specified by {@link Collection#add(E)}).
+	 * @return <tt>True</tt> (as specified by {@link Collection#add(Object)}).
 	 */
 	public boolean addAction(final ACTION action) {
-		return mProfile.add(action);
+		return this.mProfile.add(action);
 	}
 
 	/*
@@ -57,11 +57,11 @@ public final class ActionProfile<ACTION> {
 			return false;
 		}
 		ActionProfile<?> other = (ActionProfile<?>) obj;
-		if (mProfile == null) {
+		if (this.mProfile == null) {
 			if (other.mProfile != null) {
 				return false;
 			}
-		} else if (!mProfile.equals(other.mProfile)) {
+		} else if (!this.mProfile.equals(other.mProfile)) {
 			return false;
 		}
 		return true;
@@ -73,7 +73,7 @@ public final class ActionProfile<ACTION> {
 	 * @return All actions of this profile in the order they where added
 	 */
 	public Iterator<ACTION> getActions() {
-		return mProfile.iterator();
+		return this.mProfile.iterator();
 	}
 
 	/*
@@ -85,7 +85,7 @@ public final class ActionProfile<ACTION> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((mProfile == null) ? 0 : mProfile.hashCode());
+		result = prime * result + ((this.mProfile == null) ? 0 : this.mProfile.hashCode());
 		return result;
 	}
 
@@ -95,7 +95,7 @@ public final class ActionProfile<ACTION> {
 	 * @return The size of this profile, which is the amount of actions
 	 */
 	public int size() {
-		return mProfile.size();
+		return this.mProfile.size();
 	}
 
 	/*
@@ -107,7 +107,7 @@ public final class ActionProfile<ACTION> {
 	public String toString() {
 		StringBuilder result = new StringBuilder();
 
-		result.append(mProfile);
+		result.append(this.mProfile);
 
 		return result.toString();
 	}
